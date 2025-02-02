@@ -22,28 +22,69 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.julia.iwatch.auth.UserCredentials
 import iwatch.composeapp.generated.resources.Res
 import iwatch.composeapp.generated.resources.app_name
 import iwatch.composeapp.generated.resources.create_account_title
-import iwatch.composeapp.generated.resources.email_lable
+import iwatch.composeapp.generated.resources.email_label
 import iwatch.composeapp.generated.resources.login_title
-import iwatch.composeapp.generated.resources.password_lable
-import iwatch.composeapp.generated.resources.sign_in_lable
-import iwatch.composeapp.generated.resources.sign_up_lable
+import iwatch.composeapp.generated.resources.password_label
+import iwatch.composeapp.generated.resources.sign_in_label
+import iwatch.composeapp.generated.resources.sign_up_label
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Preview
 @Composable
 fun LoginScreen(
+    onLoginClick: () -> Unit,
+    onRegisterClick: (UserCredentials) -> Unit,
     presetEmail: String? = null,
-    presetPassword: String? = null
+    presetPassword: String? = null,
+    viewModel: LoginViewModel = viewModel { LoginViewModel() }
 ) {
+    LaunchedEffect(Unit) {
+        presetEmail?.let { viewModel.setEmail(it) }
+        presetPassword?.let { viewModel.setPassword(it) }
+    }
+
+    LoginScreen(
+        uiState = viewModel.uiState,
+        onEmailChange = { viewModel.setEmail(it) },
+        onPasswordChange = { viewModel.setPassword(it) },
+        onRegisterClick = onRegisterClick,
+        onSignInRequest = { viewModel.login() },
+        onLoginClick = {
+            viewModel.resetLoggedIn()
+            onLoginClick()
+        },
+        onDismissErrorRequest = { viewModel.dismissError() }
+    )
+}
+
+@Composable
+private fun LoginScreen(
+    uiState: LoginUiState,
+    onEmailChange: (String) -> Unit,
+    onPasswordChange: (String) -> Unit,
+    onRegisterClick: (UserCredentials) -> Unit,
+    onSignInRequest: () -> Unit,
+    onLoginClick: () -> Unit,
+    onDismissErrorRequest: () -> Unit
+) {
+    LaunchedEffect(uiState.loggedIn) {
+        if (uiState.loggedIn) {
+            onLoginClick()
+        }
+    }
+
     Scaffold(Modifier.imePadding()) { paddingValues ->
         val scrollState = rememberScrollState()
 
@@ -71,18 +112,19 @@ fun LoginScreen(
                 LoginFormTitle(Modifier.padding(top = 24.dp))
 
                 LoginFormFields(
-                    "",
-                    password = "",
-                    onEmailChange = { "ok" },
-                    Modifier.fillMaxWidth()
+                    email = uiState.email,
+                    password = uiState.password,
+                    onEmailChange = { onEmailChange(it) },
+                    onPasswordChange = { onPasswordChange(it) },
+                    modifier = Modifier.fillMaxWidth()
                 )
 
                 if (compact) Spacer(Modifier.weight(1f))
 
                 LoginFormButtons(
                     compact = compact,
-                    onLoginClick = {},
-                    onSignUpClick = {},
+                    onLoginClick = onLoginClick,
+                    onRegisterClick = { onRegisterClick(uiState.typedCredentials) },
                     modifier = Modifier.fillMaxWidth()
                 )
 
@@ -122,27 +164,26 @@ fun LoginFormFields(
     email: String,
     password: String,
     onEmailChange: (String) -> Unit,
+    onPasswordChange: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(modifier) {
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
             value = email,
-            label = { Text(stringResource(Res.string.email_lable)) },
+            label = { Text(stringResource(Res.string.email_label)) },
             singleLine = true,
             enabled = true,
             onValueChange = onEmailChange
         )
-    }
 
-    Column(modifier) {
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
             value = password,
-            label = { Text(stringResource(Res.string.password_lable)) },
+            label = { Text(stringResource(Res.string.password_label)) },
             singleLine = true,
             enabled = true,
-            onValueChange = onEmailChange
+            onValueChange = onPasswordChange
         )
     }
 }
@@ -151,7 +192,7 @@ fun LoginFormFields(
 fun LoginFormButtons(
     compact: Boolean,
     onLoginClick: () -> Unit,
-    onSignUpClick: () -> Unit,
+    onRegisterClick: () -> Unit,
     modifier: Modifier
 ) {
     if (compact) {
@@ -160,7 +201,7 @@ fun LoginFormButtons(
                 modifier = Modifier.fillMaxWidth(),
                 onClick = onLoginClick,
                 enabled = true,
-                content = { Text(stringResource(Res.string.sign_in_lable)) }
+                content = { Text(stringResource(Res.string.sign_in_label)) }
             )
 
             Spacer(Modifier.height(8.dp))
@@ -174,9 +215,9 @@ fun LoginFormButtons(
 
             Button(
                 modifier = Modifier.fillMaxWidth(),
-                onClick = onSignUpClick,
+                onClick = onRegisterClick,
                 enabled = true,
-                content = { Text(stringResource(Res.string.sign_up_lable)) }
+                content = { Text(stringResource(Res.string.sign_up_label)) }
             )
         }
     }
@@ -186,16 +227,16 @@ fun LoginFormButtons(
                 modifier = Modifier.weight(1f),
                 onClick = onLoginClick,
                 enabled = true,
-                content = { Text(stringResource(Res.string.sign_in_lable)) }
+                content = { Text(stringResource(Res.string.sign_in_label)) }
             )
 
             Spacer(modifier = Modifier.width(8.dp))
 
             Button(
                 modifier = Modifier.weight(1f),
-                onClick = onSignUpClick,
+                onClick = onRegisterClick,
                 enabled = true,
-                content = { Text(stringResource(Res.string.sign_up_lable)) }
+                content = { Text(stringResource(Res.string.sign_up_label)) }
             )
         }
     }

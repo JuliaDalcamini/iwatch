@@ -2,9 +2,9 @@
 <resources>
     <string name="app_name">iWatch</string>
     <string name="create_account_title">É novo por aqui? Crie uma conta.</string>
-    <string name="email_lable">Email</string>
+    <string name="email_label">Email</string>
     <string name="login_title">Login</string>
-    <string name="password_lable">Senha</string>
-    <string name="sign_in_lable">Entrar</string>
-    <string name="sign_up_lable">Criar Conta</string>
+    <string name="password_label">Senha</string>
+    <string name="sign_in_label">Entrar</string>
+    <string name="sign_up_label">Criar Conta</string>
 </resources>
