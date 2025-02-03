@@ -15,6 +15,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
@@ -25,15 +27,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.julia.iwatch.auth.UserCredentials
+import com.julia.iwatch.common.ui.ErrorDialog
+import com.julia.iwatch.session.UserSession
 import iwatch.composeapp.generated.resources.Res
 import iwatch.composeapp.generated.resources.app_name
 import iwatch.composeapp.generated.resources.create_account_title
 import iwatch.composeapp.generated.resources.email_label
+import iwatch.composeapp.generated.resources.login_error_message
+import iwatch.composeapp.generated.resources.login_error_title
 import iwatch.composeapp.generated.resources.login_title
 import iwatch.composeapp.generated.resources.password_label
 import iwatch.composeapp.generated.resources.sign_in_label
@@ -44,7 +52,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Preview
 @Composable
 fun LoginScreen(
-    onLoginClick: () -> Unit,
+    onSignIn: () -> Unit,
     onRegisterClick: (UserCredentials) -> Unit,
     presetEmail: String? = null,
     presetPassword: String? = null,
@@ -61,9 +69,9 @@ fun LoginScreen(
         onPasswordChange = { viewModel.setPassword(it) },
         onRegisterClick = onRegisterClick,
         onSignInRequest = { viewModel.login() },
-        onLoginClick = {
-            viewModel.resetLoggedIn()
-            onLoginClick()
+        onSignIn = {
+            viewModel.resetNavigateToHome()
+            onSignIn()
         },
         onDismissErrorRequest = { viewModel.dismissError() }
     )
@@ -76,12 +84,12 @@ private fun LoginScreen(
     onPasswordChange: (String) -> Unit,
     onRegisterClick: (UserCredentials) -> Unit,
     onSignInRequest: () -> Unit,
-    onLoginClick: () -> Unit,
+    onSignIn: () -> Unit,
     onDismissErrorRequest: () -> Unit
 ) {
-    LaunchedEffect(uiState.loggedIn) {
-        if (uiState.loggedIn) {
-            onLoginClick()
+    LaunchedEffect(uiState.navigateToHome) {
+        if (uiState.navigateToHome) {
+            onSignIn()
         }
     }
 
@@ -112,20 +120,23 @@ private fun LoginScreen(
                 LoginFormTitle(Modifier.padding(top = 24.dp))
 
                 LoginFormFields(
+                    modifier = Modifier.fillMaxWidth(),
                     email = uiState.email,
                     password = uiState.password,
                     onEmailChange = { onEmailChange(it) },
                     onPasswordChange = { onPasswordChange(it) },
-                    modifier = Modifier.fillMaxWidth()
+                    onSubmit = onSignInRequest,
+                    enabled = !uiState.loading
                 )
 
                 if (compact) Spacer(Modifier.weight(1f))
 
                 LoginFormButtons(
+                    modifier = Modifier.fillMaxWidth(),
                     compact = compact,
-                    onLoginClick = onLoginClick,
+                    loading = uiState.loading,
+                    onLoginClick = onSignInRequest,
                     onRegisterClick = { onRegisterClick(uiState.typedCredentials) },
-                    modifier = Modifier.fillMaxWidth()
                 )
 
                 if (compact) Spacer(Modifier.padding(top = 24.dp))
@@ -133,6 +144,18 @@ private fun LoginScreen(
         }
     }
 
+    if (uiState.showError) {
+        LoginErrorDialog(onDismissErrorRequest)
+    }
+}
+
+@Composable
+fun LoginErrorDialog(onDismissRequest: () -> Unit) {
+    ErrorDialog(
+        title = stringResource(Res.string.login_error_title),
+        message = stringResource(Res.string.login_error_message),
+        onDismissRequest = onDismissRequest
+    )
 }
 
 @Composable
@@ -165,25 +188,31 @@ fun LoginFormFields(
     password: String,
     onEmailChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
+    onSubmit: () -> Unit,
+    enabled: Boolean,
     modifier: Modifier = Modifier
 ) {
     Column(modifier) {
         OutlinedTextField(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth(),
             value = email,
-            label = { Text(stringResource(Res.string.email_label)) },
+            onValueChange = onEmailChange,
+            enabled = enabled,
             singleLine = true,
-            enabled = true,
-            onValueChange = onEmailChange
+            label = { Text(stringResource(Res.string.email_label)) },
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next)
         )
 
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
             value = password,
-            label = { Text(stringResource(Res.string.password_label)) },
+            onValueChange = onPasswordChange,
+            enabled = enabled,
             singleLine = true,
-            enabled = true,
-            onValueChange = onPasswordChange
+            label = { Text(stringResource(Res.string.password_label)) },
+            visualTransformation = PasswordVisualTransformation(),
+            keyboardActions = KeyboardActions(onDone = { onSubmit() })
         )
     }
 }
@@ -191,6 +220,7 @@ fun LoginFormFields(
 @Composable
 fun LoginFormButtons(
     compact: Boolean,
+    loading: Boolean,
     onLoginClick: () -> Unit,
     onRegisterClick: () -> Unit,
     modifier: Modifier

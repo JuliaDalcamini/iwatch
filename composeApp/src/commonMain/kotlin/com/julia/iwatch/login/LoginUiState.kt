@@ -10,7 +10,8 @@ data class LoginUiState(
     val password: String = "",
     val showError: Boolean = false,
     val loading: Boolean = false,
-    val loggedIn: Boolean = false
+    val navigateToHome: Boolean = false,
+    val newSession: Boolean = false
 )
 
 /**

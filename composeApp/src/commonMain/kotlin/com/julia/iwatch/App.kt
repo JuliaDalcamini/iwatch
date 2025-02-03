@@ -21,7 +21,7 @@ fun App() {
         ) {
             composable<LoginRoute> {
                 LoginScreen(
-                    onSignInClick = { },
+                    onSignIn = { },
                     onRegisterClick = { }
                 )
             }

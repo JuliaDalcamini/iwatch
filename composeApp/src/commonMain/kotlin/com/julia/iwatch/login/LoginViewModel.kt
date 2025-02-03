@@ -32,7 +32,7 @@ class LoginViewModel(
                 val response = repository.login(uiState.typedCredentials)
                 setAuthTokens(response.tokens)
 
-                uiState = uiState.copy(loggedIn = true)
+                uiState = uiState.copy(navigateToHome = true)
             } catch (error: Throwable) {
                 uiState = uiState.copy(showError = true)
             } finally {
@@ -63,9 +63,9 @@ class LoginViewModel(
     }
 
     /**
-     * Resets the logged in state.
+     * Resets the navigate to home flag.
      */
-    fun resetLoggedIn() {
-        uiState = uiState.copy(loggedIn = false)
+    fun resetNavigateToHome() {
+        uiState = uiState.copy(navigateToHome = false)
     }
 }
