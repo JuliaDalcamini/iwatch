@@ -1,3 +1,4 @@
+import org.gradle.kotlin.dsl.implementation
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
@@ -43,6 +44,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(libs.ktor.serialization.kotlinx.json)
+            implementation(libs.bson)
         }
     }
 }

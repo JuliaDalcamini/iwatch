@@ -1,6 +1,6 @@
 package com.julia.iwatch.user
 
-data class UserModel(
+data class UserReference(
     val id: String,
     val firstName: String,
     val lastName: String
