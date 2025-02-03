@@ -35,9 +35,12 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.julia.iwatch.auth.UserCredentials
 import com.julia.iwatch.common.ui.ErrorDialog
+import com.julia.iwatch.common.ui.button.PrimaryButton
+import com.julia.iwatch.common.ui.button.SecondaryButton
 import com.julia.iwatch.session.UserSession
 import iwatch.composeapp.generated.resources.Res
 import iwatch.composeapp.generated.resources.app_name
+import iwatch.composeapp.generated.resources.create_account_label
 import iwatch.composeapp.generated.resources.create_account_title
 import iwatch.composeapp.generated.resources.email_label
 import iwatch.composeapp.generated.resources.login_error_message
@@ -227,46 +230,49 @@ fun LoginFormButtons(
 ) {
     if (compact) {
         Column(modifier) {
-            Button(
+            PrimaryButton(
                 modifier = Modifier.fillMaxWidth(),
                 onClick = onLoginClick,
-                enabled = true,
-                content = { Text(stringResource(Res.string.sign_in_label)) }
+                enabled = !loading,
+                label = stringResource(Res.string.sign_in_label),
+                loading = loading
             )
 
             Spacer(Modifier.height(8.dp))
 
             Text(
                 modifier = Modifier.fillMaxWidth(),
-                text = stringResource(Res.string.create_account_title),
+                text = stringResource(Res.string.create_account_label),
                 style = MaterialTheme.typography.labelSmall,
                 textAlign = TextAlign.Center
             )
 
-            Button(
+            SecondaryButton(
                 modifier = Modifier.fillMaxWidth(),
                 onClick = onRegisterClick,
-                enabled = true,
-                content = { Text(stringResource(Res.string.sign_up_label)) }
+                enabled = !loading,
+                label = stringResource(Res.string.sign_up_label)
             )
         }
     }
     else {
-        Row(modifier) {
-            Button(
-                modifier = Modifier.weight(1f),
+        Row(
+            modifier = modifier,
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            PrimaryButton(
+                modifier = Modifier.fillMaxWidth(),
                 onClick = onLoginClick,
-                enabled = true,
-                content = { Text(stringResource(Res.string.sign_in_label)) }
+                enabled = !loading,
+                label = stringResource(Res.string.sign_in_label),
+                loading = loading
             )
 
-            Spacer(modifier = Modifier.width(8.dp))
-
-            Button(
-                modifier = Modifier.weight(1f),
+            SecondaryButton(
+                modifier = Modifier.fillMaxWidth(),
                 onClick = onRegisterClick,
-                enabled = true,
-                content = { Text(stringResource(Res.string.sign_up_label)) }
+                enabled = !loading,
+                label = stringResource(Res.string.sign_up_label)
             )
         }
     }

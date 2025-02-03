@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.julia.iwatch.login.LoginRoute
 import com.julia.iwatch.login.LoginScreen
+import com.julia.iwatch.register.RegisterRoute
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -22,7 +23,9 @@ fun App() {
             composable<LoginRoute> {
                 LoginScreen(
                     onSignIn = { },
-                    onRegisterClick = { }
+                    onRegisterClick = { userCredentials ->
+                        navController.navigate(RegisterRoute.from(userCredentials))
+                    }
                 )
             }
         }

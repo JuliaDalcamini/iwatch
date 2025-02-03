@@ -2,13 +2,18 @@
 <resources>
     <string name="app_name">iWatch</string>
     <string name="cancel_label">Cancelar</string>
-    <string name="create_account_title">É novo por aqui? Crie uma conta.</string>
+    <string name="create_account_label">É novo por aqui? Crie uma conta.</string>
+    <string name="create_account_title">Crie uma conta</string>
     <string name="email_label">Email</string>
+    <string name="first_name_label">Nome</string>
+    <string name="last_name_label">Sobrenome</string>
     <string name="login_error_message">Ocorreu um erro ao entrar na sua conta. Por favor, tente novamente.</string>
     <string name="login_error_title">Erro no login!</string>
     <string name="login_title">Login</string>
     <string name="ok_label">Ok</string>
+    <string name="password_confirmation_label">Confirmar Senha</string>
     <string name="password_label">Senha</string>
     <string name="sign_in_label">Entrar</string>
     <string name="sign_up_label">Criar Conta</string>
+    <string name="use_existing_account_label">Já sou cadastrado</string>
 </resources>
