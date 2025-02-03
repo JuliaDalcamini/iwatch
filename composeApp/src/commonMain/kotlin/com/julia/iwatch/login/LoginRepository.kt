@@ -1,5 +1,6 @@
 package com.julia.iwatch.login
 
+import com.julia.iwatch.auth.LoginResponse
 import com.julia.iwatch.auth.UserCredentials
 import com.julia.iwatch.common.network.configuredHttpClient
 import io.ktor.client.HttpClient

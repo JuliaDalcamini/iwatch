@@ -1,6 +1,5 @@
-package com.julia.iwatch.login
+package com.julia.iwatch.auth
 
-import com.julia.iwatch.auth.TokenPair
 import kotlinx.serialization.Serializable
 
 @Serializable

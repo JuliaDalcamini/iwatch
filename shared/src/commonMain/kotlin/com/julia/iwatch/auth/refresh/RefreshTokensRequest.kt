@@ -1,4 +1,4 @@
-package com.julia.iwatch.auth
+package com.julia.iwatch.auth.refresh
 
 import kotlinx.serialization.Serializable
 

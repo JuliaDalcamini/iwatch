@@ -1,6 +1,6 @@
 package com.julia.iwatch.common.network
 
-import com.julia.iwatch.auth.RefreshTokensRequest
+import com.julia.iwatch.auth.refresh.RefreshTokensRequest
 import com.julia.iwatch.auth.TokenPair
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
