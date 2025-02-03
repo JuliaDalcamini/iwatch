@@ -12,13 +12,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
@@ -37,18 +35,15 @@ import com.julia.iwatch.auth.UserCredentials
 import com.julia.iwatch.common.ui.ErrorDialog
 import com.julia.iwatch.common.ui.button.PrimaryButton
 import com.julia.iwatch.common.ui.button.SecondaryButton
-import com.julia.iwatch.session.UserSession
 import iwatch.composeapp.generated.resources.Res
 import iwatch.composeapp.generated.resources.app_name
 import iwatch.composeapp.generated.resources.create_account_label
-import iwatch.composeapp.generated.resources.create_account_title
 import iwatch.composeapp.generated.resources.email_label
 import iwatch.composeapp.generated.resources.login_error_message
 import iwatch.composeapp.generated.resources.login_error_title
 import iwatch.composeapp.generated.resources.login_title
 import iwatch.composeapp.generated.resources.password_label
 import iwatch.composeapp.generated.resources.sign_in_label
-import iwatch.composeapp.generated.resources.sign_up_label
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -240,18 +235,11 @@ fun LoginFormButtons(
 
             Spacer(Modifier.height(8.dp))
 
-            Text(
-                modifier = Modifier.fillMaxWidth(),
-                text = stringResource(Res.string.create_account_label),
-                style = MaterialTheme.typography.labelSmall,
-                textAlign = TextAlign.Center
-            )
-
             SecondaryButton(
                 modifier = Modifier.fillMaxWidth(),
                 onClick = onRegisterClick,
                 enabled = !loading,
-                label = stringResource(Res.string.sign_up_label)
+                label = stringResource(Res.string.create_account_label)
             )
         }
     }
@@ -261,7 +249,7 @@ fun LoginFormButtons(
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             PrimaryButton(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.weight(1f),
                 onClick = onLoginClick,
                 enabled = !loading,
                 label = stringResource(Res.string.sign_in_label),
@@ -269,10 +257,10 @@ fun LoginFormButtons(
             )
 
             SecondaryButton(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.weight(1f),
                 onClick = onRegisterClick,
                 enabled = !loading,
-                label = stringResource(Res.string.sign_up_label)
+                label = stringResource(Res.string.create_account_label)
             )
         }
     }

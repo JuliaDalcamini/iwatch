@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">iWatch</string>
     <string name="cancel_label">Cancelar</string>
-    <string name="create_account_label">É novo por aqui? Crie uma conta.</string>
+    <string name="create_account_label">Criar conta</string>
     <string name="create_account_title">Crie uma conta</string>
     <string name="email_label">Email</string>
     <string name="first_name_label">Nome</string>
@@ -14,6 +14,5 @@
     <string name="password_confirmation_label">Confirmar Senha</string>
     <string name="password_label">Senha</string>
     <string name="sign_in_label">Entrar</string>
-    <string name="sign_up_label">Criar Conta</string>
-    <string name="use_existing_account_label">Já sou cadastrado</string>
+    <string name="use_existing_account_label">Já possuo cadastro</string>
 </resources>
