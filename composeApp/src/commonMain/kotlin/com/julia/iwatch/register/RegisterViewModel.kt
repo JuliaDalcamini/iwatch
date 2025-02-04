@@ -5,7 +5,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.julia.iwatch.auth.RegisterRequest
 import com.julia.iwatch.auth.UserCredentials
+import io.ktor.http.HttpStatusCode
 import kotlinx.coroutines.launch
 
 /**
@@ -26,22 +28,31 @@ class RegisterViewModel(
      */
     fun register() {
         viewModelScope.launch {
-            uiState = uiState.copy(showError = false, loading = true)
+            uiState = uiState.copy(
+                showError = false,
+                loading = true,
+                showConflictError = false
+            )
 
             try {
-                val response = repository.register(
-                    RegisterRequest(
-                        uiState.firstName,
-                        uiState.lastName,
-                        UserCredentials(
-                            uiState.email,
-                            uiState.password
-                        )
-                    )
+                val userCredentials = UserCredentials(
+                    email = uiState.email,
+                    password = uiState.password
                 )
 
+                val registerRequest = RegisterRequest(
+                    firstName = uiState.firstName,
+                    lastName = uiState.lastName,
+                    userCredentials = userCredentials
+                )
+
+                repository.register(registerRequest)
+
+                uiState = uiState.copy(registeredCredentials = userCredentials)
             } catch (error: Throwable) {
-                uiState = uiState.copy(showError = true)
+                if (error == HttpStatusCode.Conflict) {
+                    uiState = uiState.copy(showConflictError = true)
+                } else uiState = uiState.copy(showError = true)
             } finally {
                 uiState = uiState.copy(loading = false)
             }
@@ -84,11 +95,29 @@ class RegisterViewModel(
         validatePasswords()
     }
 
+
     /**
-     * Dismisses the error dialog.
+     * Validates the form fields.
+     */
+    fun isFormValid(): Boolean {
+        val isFormValid = uiState.firstName.isNotBlank() &&
+            uiState.lastName.isNotBlank() &&
+            uiState.email.isNotBlank() &&
+            uiState.password.isNotBlank() &&
+            uiState.passwordConfirmation.isNotBlank() &&
+            !uiState.passwordMismatch
+
+        return isFormValid
+    }
+
+    /**
+     * Dismisses the error dialogs.
      */
     fun dismissError() {
-        uiState = uiState.copy(showError = false)
+        uiState = uiState.copy(
+            showError = false,
+            showConflictError = false
+        )
     }
 
     /**

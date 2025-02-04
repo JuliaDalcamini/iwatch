@@ -1,7 +1,9 @@
 package com.julia.iwatch.common.network
 
-import com.julia.iwatch.auth.refresh.RefreshTokensRequest
 import com.julia.iwatch.auth.TokenPair
+import com.julia.iwatch.auth.refresh.RefreshTokensRequest
+import com.julia.iwatch.auth.toBearerTokens
+import com.julia.iwatch.common.logging.createLogger
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.engine.HttpClientEngineConfig
@@ -13,7 +15,6 @@ import io.ktor.client.plugins.auth.providers.BearerAuthProvider
 import io.ktor.client.plugins.auth.providers.bearer
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.logging.LogLevel
-import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
@@ -21,9 +22,8 @@ import io.ktor.http.ContentType
 import io.ktor.http.contentType
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
-import co.touchlab.kermit.Logger as KermitLogger
 
-private const val API_BASE_URL = "http://localhost:8080/"
+private const val API_BASE_URL = "http://192.168.70.4:8080/"
 private var authTokens: TokenPair? = null
 
 expect fun getClientEngine(): HttpClientEngineFactory<HttpClientEngineConfig>
@@ -45,6 +45,7 @@ val configuredHttpClient: HttpClient by lazy {
                     prettyPrint = true
                     isLenient = true
                     encodeDefaults = true
+                    ignoreUnknownKeys = true
                 }
             )
         }
@@ -70,7 +71,7 @@ val configuredHttpClient: HttpClient by lazy {
         }
 
         install(Logging) {
-            logger = createLogger()
+            logger = createLogger("HttpClient")
             level = LogLevel.BODY
         }
     }
@@ -97,14 +98,4 @@ fun clearAuthTokens() {
 fun setAuthTokens(tokens: TokenPair) {
     authTokens = tokens
     invalidateBearerTokens()
-}
-
-private fun createLogger(): Logger {
-    val logger = KermitLogger.withTag("HttpClient")
-
-    return object : Logger {
-        override fun log(message: String) {
-            logger.v(message)
-        }
-    }
 }

@@ -26,15 +26,16 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.julia.iwatch.auth.UserCredentials
-import com.julia.iwatch.common.ui.ErrorDialog
 import com.julia.iwatch.common.ui.button.PrimaryButton
 import com.julia.iwatch.common.ui.button.SecondaryButton
+import com.julia.iwatch.common.ui.dialog.ErrorDialog
 import iwatch.composeapp.generated.resources.Res
 import iwatch.composeapp.generated.resources.app_name
 import iwatch.composeapp.generated.resources.create_account_label
@@ -118,7 +119,7 @@ private fun LoginScreen(
                 LoginFormTitle(Modifier.padding(top = 24.dp))
 
                 LoginFormFields(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth().padding(vertical = 24.dp),
                     email = uiState.email,
                     password = uiState.password,
                     onEmailChange = { onEmailChange(it) },
@@ -199,7 +200,10 @@ fun LoginFormFields(
             enabled = enabled,
             singleLine = true,
             label = { Text(stringResource(Res.string.email_label)) },
-            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next)
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Email,
+                imeAction = ImeAction.Next
+            )
         )
 
         OutlinedTextField(

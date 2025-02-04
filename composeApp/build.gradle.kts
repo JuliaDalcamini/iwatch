@@ -77,7 +77,10 @@ kotlin {
             implementation(libs.ktor.client.auth)
             implementation(libs.ktor.client.logging)
             implementation(libs.ktor.serialization.kotlinx.json)
+            implementation(libs.kotlinx.datetime)
             implementation(libs.kermit)
+            implementation(libs.coil.compose)
+            implementation(libs.coil.network.okhttp)
             implementation(projects.shared)
         }
 

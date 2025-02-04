@@ -1,4 +1,4 @@
-package com.julia.iwatch.common.ui
+package com.julia.iwatch.common.ui.dialog
 
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable

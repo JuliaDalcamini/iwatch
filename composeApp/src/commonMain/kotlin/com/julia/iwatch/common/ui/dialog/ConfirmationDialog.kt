@@ -1,4 +1,4 @@
-package com.julia.iwatch.common.ui
+package com.julia.iwatch.common.ui.dialog
 
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
@@ -7,8 +7,8 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import iwatch.composeapp.generated.resources.Res
 import iwatch.composeapp.generated.resources.cancel_label
-import iwatch.composeapp.generated.resources.info_24px
 import iwatch.composeapp.generated.resources.ok_label
+import iwatch.composeapp.generated.resources.warning_24px
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
 
@@ -18,7 +18,7 @@ fun ConfirmationDialog(
     message: String,
     onDismissRequest: () -> Unit,
     onConfirm: () -> Unit,
-    icon: @Composable () -> Unit = { Icon(vectorResource(Res.drawable.info_24px), null) },
+    icon: @Composable () -> Unit = { Icon(vectorResource(Res.drawable.warning_24px), null) },
     showDismissButton: Boolean = true
 ) {
     AlertDialog(

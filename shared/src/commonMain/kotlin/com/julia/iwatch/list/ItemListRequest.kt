@@ -1,4 +1,4 @@
-package itemList
+package com.julia.iwatch.list
 
 import kotlinx.serialization.Serializable
 

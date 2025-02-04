@@ -1,5 +1,6 @@
 package com.julia.iwatch.register
 
+import com.julia.iwatch.auth.RegisterRequest
 import com.julia.iwatch.common.network.configuredHttpClient
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body

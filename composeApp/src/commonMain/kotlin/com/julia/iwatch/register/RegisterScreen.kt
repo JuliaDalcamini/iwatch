@@ -33,6 +33,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.julia.iwatch.auth.UserCredentials
 import com.julia.iwatch.common.ui.button.PrimaryButton
 import com.julia.iwatch.common.ui.button.SecondaryButton
+import com.julia.iwatch.common.ui.dialog.ErrorDialog
 import iwatch.composeapp.generated.resources.Res
 import iwatch.composeapp.generated.resources.create_account_label
 import iwatch.composeapp.generated.resources.create_account_title
@@ -41,6 +42,11 @@ import iwatch.composeapp.generated.resources.first_name_label
 import iwatch.composeapp.generated.resources.last_name_label
 import iwatch.composeapp.generated.resources.password_confirmation_label
 import iwatch.composeapp.generated.resources.password_label
+import iwatch.composeapp.generated.resources.password_mismatch
+import iwatch.composeapp.generated.resources.register_conflict_message
+import iwatch.composeapp.generated.resources.register_error_message
+import iwatch.composeapp.generated.resources.register_error_title
+import iwatch.composeapp.generated.resources.required_field_label
 import iwatch.composeapp.generated.resources.use_existing_account_label
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -97,7 +103,7 @@ fun RegisterScreen(
                 )
 
                 RegisterFormFields(
-                    modifier = Modifier.fillMaxWidth().padding(vertical = 48.dp),
+                    modifier = Modifier.fillMaxWidth().padding(vertical = 24.dp),
                     firstName = viewModel.uiState.firstName,
                     lastName = viewModel.uiState.lastName,
                     email = viewModel.uiState.email,
@@ -121,12 +127,38 @@ fun RegisterScreen(
                     compact = compact,
                     loading = viewModel.uiState.loading,
                     onRegisterClick = { viewModel.register() },
-                    onLoginClick = onLoginClick
+                    onLoginClick = onLoginClick,
+                    enabled = viewModel.isFormValid()
                 )
             }
         }
     }
 
+    if (viewModel.uiState.showError) {
+        RegisterErrorDialog(onDismissRequest = { viewModel.dismissError() })
+    }
+
+    if (viewModel.uiState.showConflictError) {
+        RegisterConflictErrorDialog(onDismissRequest = { viewModel.dismissError() })
+    }
+}
+
+@Composable
+fun RegisterErrorDialog(onDismissRequest: () -> Unit) {
+    ErrorDialog(
+        title = stringResource(Res.string.register_error_title),
+        message = stringResource(Res.string.register_error_message),
+        onDismissRequest = onDismissRequest
+    )
+}
+
+@Composable
+fun RegisterConflictErrorDialog(onDismissRequest: () -> Unit) {
+    ErrorDialog(
+        title = stringResource(Res.string.register_error_title),
+        message = stringResource(Res.string.register_conflict_message),
+        onDismissRequest = onDismissRequest
+    )
 }
 
 @Composable
@@ -152,7 +184,13 @@ fun RegisterFormFields(
             onValueChange = onFirstNameChange,
             enabled = enabled,
             singleLine = true,
-            label = { Text(stringResource(Res.string.first_name_label)) }
+            isError = firstName.isBlank(),
+            label = { Text(stringResource(Res.string.first_name_label)) },
+            supportingText = {
+                when {
+                    firstName.isBlank() -> Text(stringResource(Res.string.required_field_label))
+                }
+            }
         )
 
         OutlinedTextField(
@@ -161,7 +199,13 @@ fun RegisterFormFields(
             onValueChange = onLastNameChange,
             enabled = enabled,
             singleLine = true,
-            label = { Text(stringResource(Res.string.last_name_label)) }
+            isError = lastName.isBlank(),
+            label = { Text(stringResource(Res.string.last_name_label)) },
+            supportingText = {
+                when {
+                    lastName.isBlank() -> Text(stringResource(Res.string.required_field_label))
+                }
+            }
         )
 
         OutlinedTextField(
@@ -170,7 +214,13 @@ fun RegisterFormFields(
             onValueChange = onEmailChange,
             enabled = enabled,
             singleLine = true,
-            label = { Text(stringResource(Res.string.email_label)) }
+            isError = email.isBlank(),
+            label = { Text(stringResource(Res.string.email_label)) },
+            supportingText = {
+                when {
+                    email.isBlank() -> Text(stringResource(Res.string.required_field_label))
+                }
+            }
         )
 
         OutlinedTextField(
@@ -179,9 +229,15 @@ fun RegisterFormFields(
             onValueChange = onPasswordChange,
             enabled = enabled,
             singleLine = true,
+            isError = password.isBlank(),
             label = { Text(stringResource(Res.string.password_label)) },
             visualTransformation = PasswordVisualTransformation(),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+            supportingText = {
+                when {
+                    password.isBlank() -> Text(stringResource(Res.string.required_field_label))
+                }
+            }
         )
 
         OutlinedTextField(
@@ -190,9 +246,12 @@ fun RegisterFormFields(
             onValueChange = onPasswordConfirmationChange,
             enabled = enabled,
             singleLine = true,
-            isError = passwordMismatch,
+            isError = passwordConfirmation.isBlank() || passwordMismatch,
             supportingText = {
-                if (passwordMismatch) Text("Senhas não coincidem")
+                when {
+                    passwordConfirmation.isBlank() -> Text(stringResource(Res.string.required_field_label))
+                    passwordMismatch -> Text(stringResource(Res.string.password_mismatch))
+                }
             },
             label = { Text(stringResource(Res.string.password_confirmation_label)) },
             visualTransformation = PasswordVisualTransformation(),
@@ -207,6 +266,7 @@ fun RegisterFormButtons(
     loading: Boolean,
     onLoginClick: () -> Unit,
     onRegisterClick: () -> Unit,
+    enabled: Boolean,
     modifier: Modifier = Modifier
 ) {
     if (compact) {
@@ -224,7 +284,7 @@ fun RegisterFormButtons(
                 modifier = Modifier.fillMaxWidth(),
                 label = stringResource(Res.string.create_account_label),
                 onClick = onRegisterClick,
-                enabled = !loading,
+                enabled = !loading && enabled,
                 loading = loading
             )
         }
@@ -244,7 +304,7 @@ fun RegisterFormButtons(
                 modifier = Modifier.weight(1f),
                 label = stringResource(Res.string.create_account_label),
                 onClick = onRegisterClick,
-                enabled = !loading,
+                enabled = !loading && enabled,
                 loading = loading
             )
         }
