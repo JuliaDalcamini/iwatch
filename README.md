@@ -1,5 +1,8 @@
-This project is an app for managing movie lists. You can create multiple lists and add movies to them. Movie data is fetched from TMDB APIs.  
+# iWatch
 
+This project is an app for managing movie lists. You can create multiple lists and add movies to them. Movie data is fetched from TMDB APIs.
+
+## Project structure
 This is a Kotlin Multiplatform project targeting Android, iOS, Web, Desktop, Server.
 
 * `/composeApp` is for code that will be shared across your Compose Multiplatform applications.
@@ -21,3 +24,13 @@ This is a Kotlin Multiplatform project targeting Android, iOS, Web, Desktop, Ser
 Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html),
 [Compose Multiplatform](https://github.com/JetBrains/compose-multiplatform/#compose-multiplatform),
 [Kotlin/Wasm](https://kotl.in/wasm/)…
+
+## Screenshots
+
+Login screen             |  Lists screen
+:-----------------------:|:-------------------------:
+![Login screen](/assets/screenshots/login.jpg?raw=true) | ![Lists screen](/assets/screenshots/lists.jpg?raw=true)
+
+Movies screen            |  Search screen
+:-----------------------:|:-------------------------:
+![Movies screen](/assets/screenshots/movies.jpg?raw=true) | ![Search screen](/assets/screenshots/search.jpg?raw=true)
