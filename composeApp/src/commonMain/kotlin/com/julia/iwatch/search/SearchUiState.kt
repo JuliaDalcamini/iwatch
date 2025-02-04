@@ -1,5 +1,8 @@
 package com.julia.iwatch.search
 
+/**
+ * Search screen state.
+ */
 data class SearchUiState(
     val query: String = "",
     val results: List<SearchResult>? = null,

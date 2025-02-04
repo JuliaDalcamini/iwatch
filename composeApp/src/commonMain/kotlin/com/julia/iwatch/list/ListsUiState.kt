@@ -1,5 +1,8 @@
 package com.julia.iwatch.list
 
+/**
+ * Lists screen state.
+ */
 data class ListsUiState(
     val itemLists: List<ItemList>? = null,
     val listToRename: ItemList? = null,

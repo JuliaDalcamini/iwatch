@@ -5,6 +5,9 @@ import com.julia.iwatch.list.ItemList
 import kotlin.reflect.typeOf
 import kotlinx.serialization.Serializable
 
+/**
+ * Route for the search screen.
+ */
 @Serializable
 data class SearchRoute(val list: ItemList) {
 

@@ -12,6 +12,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.julia.iwatch.common.navigation.popUpToAndNavigate
+import com.julia.iwatch.common.network.clearAuthTokens
 import com.julia.iwatch.item.ItemsRoute
 import com.julia.iwatch.item.ItemsScreen
 import com.julia.iwatch.list.ListsRoute
@@ -43,7 +44,13 @@ fun App() {
                 LoginScreen(
                     presetEmail = route.email,
                     presetPassword = route.password,
-                    onSignIn = { navController.navigate(ListsRoute) },
+                    onSignIn = {
+                        navController.navigate(ListsRoute) {
+                            popUpTo<LoginRoute> {
+                                inclusive = true
+                            }
+                        }
+                    },
                     onRegisterClick = { userCredentials ->
                         navController.navigate(RegisterRoute.from(userCredentials))
                     }
@@ -69,6 +76,8 @@ fun App() {
                 ListsScreen(
                     onItemListClick = { list -> navController.navigate(ItemsRoute(list)) },
                     onLogoutClick = {
+                        clearAuthTokens()
+
                         navController.navigate(LoginRoute()) {
                             popUpTo<ListsRoute> { inclusive = true }
                         }

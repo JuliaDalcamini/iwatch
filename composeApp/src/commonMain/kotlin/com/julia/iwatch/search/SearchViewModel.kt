@@ -11,6 +11,9 @@ import com.julia.iwatch.tmdb.TMDB_IMAGE_BASE_URL
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
 
+/**
+ * View model for the search screen.
+ */
 class SearchViewModel(
     private val repository: SearchRepository = SearchRepository(),
     private val itemsRepository: ItemsRepository = ItemsRepository()
@@ -18,6 +21,9 @@ class SearchViewModel(
 
     private lateinit var listId: String
 
+    /**
+     * The current state of the search screen.
+     */
     var uiState by mutableStateOf(SearchUiState())
         private set
 
@@ -25,10 +31,16 @@ class SearchViewModel(
         this.listId = listId
     }
 
+    /**
+     * Sets the typed query.
+     */
     fun setQuery(query: String) {
         uiState = uiState.copy(query = query)
     }
 
+    /**
+     * Attempts to load a suggestions of items by the typed query.
+     */
     fun fetchSuggestions() {
         viewModelScope.launch {
             try {
@@ -40,6 +52,9 @@ class SearchViewModel(
         }
     }
 
+    /**
+     * Attempts to find the searched item.
+     */
     fun search() {
         viewModelScope.launch {
             try {
@@ -60,6 +75,9 @@ class SearchViewModel(
         }
     }
 
+    /**
+     * Attempts to add the item to list.
+     */
     fun addToList(result: SearchResult) {
         viewModelScope.launch {
             try {
@@ -90,6 +108,9 @@ class SearchViewModel(
         }
     }
 
+    /**
+     * Dismisses the error dialog.
+     */
     fun dismissActionError() {
         uiState = uiState.copy(actionError = false)
     }

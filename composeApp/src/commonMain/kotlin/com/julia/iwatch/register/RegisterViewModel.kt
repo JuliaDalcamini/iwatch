@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.julia.iwatch.auth.RegisterRequest
 import com.julia.iwatch.auth.UserCredentials
-import io.ktor.http.HttpStatusCode
 import kotlinx.coroutines.launch
 
 /**
@@ -30,8 +29,7 @@ class RegisterViewModel(
         viewModelScope.launch {
             uiState = uiState.copy(
                 showError = false,
-                loading = true,
-                showConflictError = false
+                loading = true
             )
 
             try {
@@ -50,9 +48,7 @@ class RegisterViewModel(
 
                 uiState = uiState.copy(registeredCredentials = userCredentials)
             } catch (error: Throwable) {
-                if (error == HttpStatusCode.Conflict) {
-                    uiState = uiState.copy(showConflictError = true)
-                } else uiState = uiState.copy(showError = true)
+                uiState = uiState.copy(showError = true)
             } finally {
                 uiState = uiState.copy(loading = false)
             }
@@ -114,10 +110,7 @@ class RegisterViewModel(
      * Dismisses the error dialogs.
      */
     fun dismissError() {
-        uiState = uiState.copy(
-            showError = false,
-            showConflictError = false
-        )
+        uiState = uiState.copy(showError = false)
     }
 
     /**

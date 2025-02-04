@@ -43,7 +43,6 @@ import iwatch.composeapp.generated.resources.last_name_label
 import iwatch.composeapp.generated.resources.password_confirmation_label
 import iwatch.composeapp.generated.resources.password_label
 import iwatch.composeapp.generated.resources.password_mismatch
-import iwatch.composeapp.generated.resources.register_conflict_message
 import iwatch.composeapp.generated.resources.register_error_message
 import iwatch.composeapp.generated.resources.register_error_title
 import iwatch.composeapp.generated.resources.required_field_label
@@ -137,10 +136,6 @@ fun RegisterScreen(
     if (viewModel.uiState.showError) {
         RegisterErrorDialog(onDismissRequest = { viewModel.dismissError() })
     }
-
-    if (viewModel.uiState.showConflictError) {
-        RegisterConflictErrorDialog(onDismissRequest = { viewModel.dismissError() })
-    }
 }
 
 @Composable
@@ -148,15 +143,6 @@ fun RegisterErrorDialog(onDismissRequest: () -> Unit) {
     ErrorDialog(
         title = stringResource(Res.string.register_error_title),
         message = stringResource(Res.string.register_error_message),
-        onDismissRequest = onDismissRequest
-    )
-}
-
-@Composable
-fun RegisterConflictErrorDialog(onDismissRequest: () -> Unit) {
-    ErrorDialog(
-        title = stringResource(Res.string.register_error_title),
-        message = stringResource(Res.string.register_conflict_message),
         onDismissRequest = onDismissRequest
     )
 }

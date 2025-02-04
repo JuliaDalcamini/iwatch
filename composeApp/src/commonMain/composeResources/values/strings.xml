@@ -1,18 +1,47 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <resources>
+    <string name="action_error_message">Ocorreu um erro ao executar a ação. Por favor, tente novamente.</string>
+    <string name="action_error_title">Erro</string>
+    <string name="add_movie_label">Adicionar filme</string>
     <string name="app_name">iWatch</string>
     <string name="cancel_label">Cancelar</string>
+    <string name="confirm_label">Confirmar</string>
     <string name="create_account_label">Criar conta</string>
     <string name="create_account_title">Crie uma conta</string>
+    <string name="create_list_title">Criar lista</string>
+    <string name="create_new_list_label">Criar nova lista</string>
+    <string name="delete_label">Apagar</string>
+    <string name="delete_item_title">Apagar item</string>
+    <string name="delete_item_message">Tem certeza de que deseja apagar o item %1$s?</string>
+    <string name="delete_list_title">Apagar lista</string>
+    <string name="delete_list_message">Tem certeza de que deseja apagar a lista %1$s?</string>
     <string name="email_label">Email</string>
     <string name="first_name_label">Nome</string>
+    <string name="item_count_format">%1$d itens</string>
+    <string name="list_items_title">Itens da lista</string>
     <string name="last_name_label">Sobrenome</string>
+    <string name="load_error_message">Ocorreu um erro ao carregar as informações. Por favor, tente novamente.</string>
     <string name="login_error_message">Ocorreu um erro ao entrar na sua conta. Por favor, tente novamente.</string>
     <string name="login_error_title">Erro no login!</string>
     <string name="login_title">Login</string>
+    <string name="logout_label">Sair da conta</string>
+    <string name="more_options_label">Mais opções</string>
+    <string name="my_lists_title">Minhas listas</string>
+    <string name="no_items_in_list_message">Nenhum item na lista.</string>
+    <string name="no_lists_message">Nenhuma lista criada.</string>
     <string name="ok_label">Ok</string>
     <string name="password_confirmation_label">Confirmar Senha</string>
     <string name="password_label">Senha</string>
+    <string name="password_mismatch">Senhas não coincidem</string>
+    <string name="register_error_title">Erro no cadastro</string>
+    <string name="register_error_message">Ocorreu um erro ao criar seu cadastro. Por favor, tente novamente.</string>
+    <string name="register_conflict_message">Email já cadastrado. Por favor, tente novamente.</string>
+    <string name="rename_label">Renomear</string>
+    <string name="rename_list_title">Renomear lista</string>
+    <string name="required_field_label">Campo obrigatório*</string>
+    <string name="search_movies_label">Pesquisar filmes</string>
+    <string name="search_movies_message">Use a barra de pesquisa para adicionar um filme.</string>
     <string name="sign_in_label">Entrar</string>
+    <string name="try_again_label">Tentar novamente</string>
     <string name="use_existing_account_label">Já possuo cadastro</string>
 </resources>
