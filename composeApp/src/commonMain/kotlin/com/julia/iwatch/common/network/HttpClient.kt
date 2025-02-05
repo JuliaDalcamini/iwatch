@@ -23,7 +23,7 @@ import io.ktor.http.contentType
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 
-private const val API_BASE_URL = "http://192.168.70.4:8080/"
+private const val API_BASE_URL = "http://localhost:8080/"
 private var authTokens: TokenPair? = null
 
 expect fun getClientEngine(): HttpClientEngineFactory<HttpClientEngineConfig>
