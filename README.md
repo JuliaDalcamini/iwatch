@@ -25,13 +25,28 @@ Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-mu
 [Compose Multiplatform](https://github.com/JetBrains/compose-multiplatform/#compose-multiplatform),
 [Kotlin/Wasm](https://kotl.in/wasm/)…
 
+## Setting up the environment
+To run or work on this project, you'll need the following:
+- Install and setup MongoDB
+- Create a database named `iwatch`
+- Install Android Studio
+- Install the [Kotlin Multiplatform plugin](https://plugins.jetbrains.com/plugin/14936-kotlin-multiplatform) for Android Studio
+ 
 ## Running
-- Setup a MongoDB on your machine;
-- Create a database named `iwatch`;
-- Start the server by running the `:server:run` Gradle task;
-- Start the desktop application using the `:composeApp:run` Gradle task.
 
-> To run on other platforms, see the [official documentation](https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-multiplatform-create-first-app.html#run-your-application).
+### Server
+Start the server by running the `:server:run` Gradle task.
+
+### Android app
+Select the composeApp run configuration in Android Studio, select an emulator o device, and click the Run button.
+
+## iOS app
+Select the iosApp run configuration in Android Studio, and click the Run button.
+
+### Desktop app
+Start the desktop application using the `:composeApp:run` Gradle task.
+
+> For more details on running the app, see the [official documentation](https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-multiplatform-create-first-app.html#run-your-application).
 
 ## Screenshots
 
