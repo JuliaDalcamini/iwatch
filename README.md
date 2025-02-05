@@ -25,6 +25,14 @@ Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-mu
 [Compose Multiplatform](https://github.com/JetBrains/compose-multiplatform/#compose-multiplatform),
 [Kotlin/Wasm](https://kotl.in/wasm/)…
 
+## Running
+- Setup a MongoDB on your machine;
+- Create a database named `iwatch`;
+- Start the server by running the `:server:run` Gradle task;
+- Start the desktop application using the `:composeApp:run` Gradle task.
+
+> To run on other platforms, see the [official documentation](https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-multiplatform-create-first-app.html#run-your-application).
+
 ## Screenshots
 
 Login screen             |  Lists screen
